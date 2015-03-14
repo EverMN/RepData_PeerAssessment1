@@ -212,27 +212,27 @@ The mean and median total number of steps taken per day using the dataset with t
 
 ```r
 # Mean and median total number of steps taken per day, original dataset
-firstvalues <- c(mean(stepsByDay$totalsteps),
+original_dataset <- c(mean(stepsByDay$totalsteps),
                  median(stepsByDay$totalsteps))
 
 # Mean and median total number of steps taken per day, "filled in" dataset
-lastvalues <- c(mean(stepsByDayNN$totalsteps),
+missing_filled_dataset <- c(mean(stepsByDayNN$totalsteps),
                 median(stepsByDayNN$totalsteps))
 # Impact
 impact <- lastvalues - firstvalues
 
 # As data frame:
-as.data.frame(cbind(firstvalues, 
-                    lastvalues, 
+as.data.frame(cbind(original_dataset, 
+                    missing_filled_dataset, 
                     impact),
                     row.names = c("mean",
                                 "median"))
 ```
 
 ```
-##        firstvalues lastvalues  impact
-## mean       9354.23   10821.21 1466.98
-## median    10395.00   11015.00  620.00
+##        original_dataset missing_filled_dataset  impact
+## mean            9354.23               10821.21 1466.98
+## median         10395.00               11015.00  620.00
 ```
 
 

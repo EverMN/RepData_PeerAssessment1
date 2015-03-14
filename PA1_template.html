@@ -180,24 +180,24 @@ plot1 + geom_histogram(fill=&quot;blue&quot;, color=&quot;white&quot;) +
 <p><strong>4.3 Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?</strong></p>
 <p>The mean and median total number of steps taken per day using the dataset with the missing values filled in, are greatest than the original dataset:</p>
 <pre class="r"><code># Mean and median total number of steps taken per day, original dataset
-firstvalues &lt;- c(mean(stepsByDay$totalsteps),
+original_dataset &lt;- c(mean(stepsByDay$totalsteps),
                  median(stepsByDay$totalsteps))
 
 # Mean and median total number of steps taken per day, &quot;filled in&quot; dataset
-lastvalues &lt;- c(mean(stepsByDayNN$totalsteps),
+missing_filled_dataset &lt;- c(mean(stepsByDayNN$totalsteps),
                 median(stepsByDayNN$totalsteps))
 # Impact
 impact &lt;- lastvalues - firstvalues
 
 # As data frame:
-as.data.frame(cbind(firstvalues, 
-                    lastvalues, 
+as.data.frame(cbind(original_dataset, 
+                    missing_filled_dataset, 
                     impact),
                     row.names = c(&quot;mean&quot;,
                                 &quot;median&quot;))</code></pre>
-<pre><code>##        firstvalues lastvalues  impact
-## mean       9354.23   10821.21 1466.98
-## median    10395.00   11015.00  620.00</code></pre>
+<pre><code>##        original_dataset missing_filled_dataset  impact
+## mean            9354.23               10821.21 1466.98
+## median         10395.00               11015.00  620.00</code></pre>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>
