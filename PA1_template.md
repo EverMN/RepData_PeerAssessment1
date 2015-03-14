@@ -47,7 +47,7 @@ plot1 + geom_histogram(fill="blue", color="white") +
     theme_bw() + 
     labs(x="Total number of steps / day",
          y = "Frequency",
-         title = "Total number of steps taken per day")
+         title = "Total number of steps taken per day \n")
 ```
 
 ```
@@ -69,7 +69,7 @@ mean(stepsByDay$totalsteps)
 ## [1] 9354.23
 ```
 
-Median total number of steps taken per day 
+Median total number of steps taken per day: 
 
 
 ```r
@@ -129,16 +129,20 @@ sum(is.na(activityData$steps))
 
 **2 Filling in all of the missing values in the dataset**
 
+**Inputing missing data strategy:**
+
 The missing values are replaced by the mean steps taken the same weekday and 5-minute interval.
 
-
 **3 New dataset, equal to the original dataset but with the missing data filled in**
+
+Filling missed data with the mean steps taken the same weekday and 5-minute interval:
 
 
 ```r
 #Average steps by weekday, interval 
 stepsbyweekdayinterval <- activityData[,j=list(avgstepsfill=mean(steps, na.rm = TRUE)),
                                                by=c("weekday","interval")]
+
 # New dataset, adding mean steps by weekday, interval
 activityDataNN <- merge(x=activityData,
                                y=stepsbyweekdayinterval,
@@ -166,7 +170,7 @@ plot1 + geom_histogram(fill="blue", color="white") +
     theme_bw() + 
     labs(x="Total number of steps / day",
          y = "Frequency",
-         title = "Total number of steps taken per day")
+         title = "Total number of steps taken per day \n")
 ```
 
 ```
@@ -203,7 +207,7 @@ median(stepsByDayNN$totalsteps)
 
 **4.3 Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?**
 
-The mean and median total number of steps taken per day using dataset with the missing values filled in, are greatest than the original dataset:
+The mean and median total number of steps taken per day using the dataset with the missing values filled in, are greatest than the original dataset:
 
 
 ```r
@@ -234,7 +238,7 @@ as.data.frame(cbind(firstvalues,
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-**1 Factor variable "weekdayweekend"**
+**1 Adding factor variable "weekdayweekend":**
 
 
 ```r
