@@ -1,9 +1,4 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 
@@ -15,8 +10,8 @@ Load the data (i.e. read.csv())
 Process/transform the data (if necessary) into a format suitable for your analysis
 
 Loading the data:
-```{r loadingData, echo=TRUE}
 
+```r
 #Loading libraries
 library(data.table)
 library(ggplot2)
@@ -45,7 +40,8 @@ the dataset.
 
 Make a histogram of the total number of steps taken each day
 
-```{r histogram1, echo=TRUE}
+
+```r
 #Aggregating steps by date
 stepsByDay <- activityData[,j=list(totalsteps=sum(steps, na.rm = TRUE))
                            ,by="date"]
@@ -58,20 +54,26 @@ plot1 + geom_histogram(fill="blue", color="white") +
     labs(x="Total number of steps / day",
          y = "Count",
         title = "Total number of steps taken per day")
+```
 
-````
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![](PA1_template_files/figure-html/histogram1-1.png) 
 
 Calculate and report the mean and median total number of steps taken per day
 
-The mean of total number of steps taken per day is `r format(round(mean(stepsByDay$totalsteps),6),decimal.mark=".", nsmall=6)` .
+The mean of total number of steps taken per day is 9354.229508 .
 
-The median of total number of steps taken per day is `r median(stepsByDay$totalsteps)` .
+The median of total number of steps taken per day is 10395 .
 
 
 ## What is the average daily activity pattern?
 Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis)
 
-```{r averagetimeseries, echo=TRUE}
+
+```r
 #Aggregating steps by interval
 stepsByInterval <- activityData[,j=list(avgsteps=mean(steps, na.rm = TRUE))
                            ,by="interval"]
@@ -85,10 +87,11 @@ plot2 + geom_line(color="blue") +
     labs(x="5 minutes Interval",
          y = "Average number of steps taken",
         title = "Average number of steps taken by 5 minutes interval \n averaged across all days")
+```
 
-````
+![](PA1_template_files/figure-html/averagetimeseries-1.png) 
 
-The 5 minute interval with the maximum number of steps, on average across all the days in the database is `r stepsByInterval$interval[which.max(stepsByInterval$avgsteps)]`.
+The 5 minute interval with the maximum number of steps, on average across all the days in the database is 835.
 
 ## Imputing missing values
 
@@ -98,14 +101,14 @@ bias into some calculations or summaries of the data.
 
 Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 
-Total number of missed values in the dataset: `r sum(is.na(activityData$steps))` .
+Total number of missed values in the dataset: 2304 .
 
 Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
 Create a new dataset that is equal to the original dataset but with the missing data filled in.
 
-```{r fillingmissingvalues, echo=TRUE}
 
+```r
 #Average steps by weekday, interval 
 stepsbyweekdayinterval <- activityData[,j=list(avgstepsfill=mean(steps, na.rm = TRUE)),
                                                by=c("weekday","interval")]
@@ -119,14 +122,13 @@ activityDataNN$steps[is.na(activityDataNN$steps)] <- activityDataNN$avgstepsfill
 
 activityDataNN <- data.table(activityDataNN[,2:4,with=FALSE],
                                     key = c("date", "interval"))
-
-
 ```
 
 
 Make a histogram of the total number of steps taken each day
 
-```{r histogram2, echo=TRUE}
+
+```r
 #Aggregating steps by date
 stepsByDayNN <- activityDataNN[,j=list(totalsteps=sum(steps, na.rm = TRUE))
                            ,by="date"]
@@ -139,20 +141,26 @@ plot1 + geom_histogram(fill="blue", color="white") +
     labs(x="Total number of steps / day",
          y = "Count",
         title = "Total number of steps taken per day")
+```
 
-````
+```
+## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
+```
+
+![](PA1_template_files/figure-html/histogram2-1.png) 
 
 Calculate and report the mean and median total number of steps taken per day
 
-The mean of total number of steps taken per day is `r format(round(mean(stepsByDayNN$totalsteps),6),decimal.mark=".", nsmall=6)` .
+The mean of total number of steps taken per day is 10821.209602 .
 
-The median of total number of steps taken per day is `r format(round(median(stepsByDayNN$totalsteps),6),decimal.mark=".", nsmall=0)` .
+The median of total number of steps taken per day is 11015 .
 
 Do these values differ from the estimates from the first part of the assignment? What is the impact of imputing missing data on the estimates of the total daily number of steps?
 
 These values are different from the estimates from the first part
 
-```{r comparison, echo=TRUE}
+
+```r
 #mean and median of total number of steps taken per day
 
 firstvalues <- c(mean(stepsByDay$totalsteps),
@@ -170,7 +178,12 @@ diffs <- as.data.frame(cbind(firstvalues,
                                          "median"))
 
 diffs
+```
 
+```
+##        firstvalues lastvalues  impact
+## mean       9354.23   10821.21 1466.98
+## median    10395.00   11015.00  620.00
 ```
 
 ## Are there differences in activity patterns between weekdays and weekends?
@@ -186,8 +199,8 @@ be using the activity monitor data. Note that the above plot was made
 using the lattice system but you can make the same version of the plot
 using any plotting system you choose.
 
-```{r weekdayplot, echo=TRUE}
 
+```r
 activityDataNN$weekdayweekend <- "weekday"
 
 activityDataNN$weekdayweekend[weekdays(activityDataNN$date) %in% c("Sunday","Saturday")] <- "weekend"
@@ -211,7 +224,8 @@ plot3 + geom_line(color="blue") +
     labs(x="Interval",
          y = "Number of steps",
         title = "Average number of steps taken by 5 minutes interval \n")
-
 ```
+
+![](PA1_template_files/figure-html/weekdayplot-1.png) 
 
 What is next?
